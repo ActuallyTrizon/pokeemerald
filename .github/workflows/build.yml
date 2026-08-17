@@ -56,6 +56,16 @@ jobs:
           COMPARE: 0
         run: make -j${nproc} all
 
+      - name: Upload built ROM and symbols
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+         name: pokeemerald-build
+         path: |
+          pokeemerald.gba
+          pokeemerald_modern.gba
+          *.sym
+
       - name: Move symfiles
         if: ${{ github.event_name == 'push' }}
         run: |
