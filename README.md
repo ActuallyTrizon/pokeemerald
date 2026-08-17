@@ -1,4 +1,4 @@
-# Pokémon Emerald
+# Pokémon Emerald : Justice for Beldum
 
 This is a decompilation of Pokémon Emerald.
 
