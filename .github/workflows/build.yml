@@ -2,19 +2,22 @@ name: Build ROM
 
 on:
   push:
-    branches: [ followers ]
+    branches: [ master, followers ]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build_rom:
     name: Build ROM
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
+
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install binutils-arm-none-eabi gcc-arm-none-eabi libpng-dev
+
       - name: Build & install agbcc
         run: |
           cd ..
@@ -22,6 +25,13 @@ jobs:
           cd agbcc
           ./build.sh
           ./install.sh ../pokeemerald
-      - name: Build ROM
+
+      - name: Compile ROM
         run: |
           make modern
+
+      - name: Upload ROM
+        uses: actions/upload-artifact@v7
+        with:
+          name: pokeemerald
+          path: '*.gba'
